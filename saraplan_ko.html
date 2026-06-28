@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>saraplan — Tokyo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Outfit:wght@200;300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@300;500&display=swap" rel="stylesheet">
+<style>
+ :root{
+  --ink:#16130f;--paper:#f5f1e8;--paper2:#ede7d9;--cream:#faf7f0;
+  --sand:#cbb893;--gold:#b8893f;--plum:#6a3d5c;--berry:#b23c5e;--pine:#26433a;--sky:#3a5a7a;
+  --line:rgba(22,19,15,.12);
+ }
+ *{margin:0;padding:0;box-sizing:border-box}
+ html{scroll-behavior:smooth}
+ body{background:var(--paper);color:var(--ink);font-family:"Outfit","Noto Sans KR",sans-serif;font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+ .wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+ .scene{position:relative;width:100%;height:100%;overflow:hidden}
+ nav{position:sticky;top:0;z-index:60;background:rgba(245,241,232,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+ .nav-in{display:flex;align-items:center;justify-content:space-between;height:66px}
+ .brand{font-family:"Fraunces",serif;font-weight:500;font-size:1.5rem;letter-spacing:-.02em;display:flex;align-items:center;gap:.4rem;cursor:pointer;background:none;border:none;color:var(--ink)}
+ .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--berry);display:inline-block;margin-bottom:15px}
+ .tabs{display:flex;gap:6px}
+ .tab{font-family:"Outfit",sans-serif;font-size:.8rem;letter-spacing:.04em;padding:8px 16px;border-radius:30px;border:1px solid transparent;background:none;color:var(--ink);cursor:pointer;opacity:.55;transition:all .25s;white-space:nowrap}
+ .tab:hover{opacity:.9}
+ .tab.active{opacity:1;background:var(--ink);color:var(--cream)}
+ @media(max-width:760px){.nav-in{height:auto;flex-direction:column;gap:10px;padding-top:12px;padding-bottom:12px}.tabs{flex-wrap:wrap;justify-content:center}.tab{padding:7px 13px;font-size:.74rem}}
+ .page{display:none;animation:fade .5s ease}
+ .page.show{display:block}
+ @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+ .hero{position:relative;height:78vh;min-height:540px;display:flex;align-items:flex-end;overflow:hidden}
+ .hero-scene{position:absolute;inset:0;z-index:0}
+ .hero-content{position:relative;z-index:3;padding:0 28px 60px;max-width:1200px;margin:0 auto;width:100%}
+ .hero .eyebrow{color:#f5ddc4;text-shadow:0 1px 12px rgba(0,0,0,.4)}
+ .hero h1{color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5),0 4px 34px rgba(0,0,0,.5)}
+ .hero .lede{color:#f3ecdf;text-shadow:0 1px 16px rgba(0,0,0,.5)}
+ .eyebrow{font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;font-weight:500;margin-bottom:22px;display:flex;align-items:center;gap:14px}
+ .eyebrow::after{content:"";flex:0 0 56px;height:1px;background:currentColor;opacity:.6}
+ h1{font-family:"Fraunces",serif;font-weight:300;font-size:clamp(3rem,9vw,6.8rem);line-height:.94;letter-spacing:-.03em}
+ h1 em{font-style:italic}
+ .hero h1 em{color:#f0c98a}
+ .lede{margin-top:26px;max-width:540px;font-size:1.1rem}
+ .scroll-cue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:4;color:var(--cream);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;opacity:.85;display:flex;flex-direction:column;align-items:center;gap:8px}
+ .scroll-cue .bar{width:1px;height:34px;background:linear-gradient(var(--cream),transparent);animation:drop 1.8s infinite}
+ @keyframes drop{0%{opacity:0;transform:scaleY(.3)}50%{opacity:1}100%{opacity:0;transform:translateY(12px) scaleY(.3)}}
+ .ribbon{background:var(--ink);color:var(--cream);padding:22px 0}
+ .ribbon-in{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;align-items:center}
+ .ribbon .item{display:flex;flex-direction:column}
+ .ribbon b{font-family:"Fraunces",serif;font-size:1.4rem;font-weight:500}
+ .ribbon span{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+ .ribbon .jp{font-family:"Noto Serif JP",serif;font-size:1.5rem;opacity:.5;letter-spacing:.3em}
+ .sec{padding:70px 0}
+ .sec-head{margin-bottom:44px}
+ .sec-head .eyebrow{color:var(--berry)}
+ .sec-head h2{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(2rem,5vw,3rem);letter-spacing:-.02em}
+ .sec-head p{font-size:.98rem;opacity:.62;max-width:440px;margin-top:10px}
+ .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+ @media(max-width:900px){.plans{grid-template-columns:1fr;max-width:460px;margin:0 auto}}
+ .pcard{border-radius:22px;overflow:hidden;background:var(--cream);box-shadow:0 1px 2px rgba(22,19,15,.05),0 12px 40px rgba(22,19,15,.09);cursor:pointer;border:1px solid rgba(22,19,15,.06);transition:transform .4s cubic-bezier(.2,.7,.2,1),box-shadow .4s;display:flex;flex-direction:column}
+ .pcard:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(22,19,15,.18)}
+ .pcard-art{height:200px;position:relative;overflow:hidden}
+ .pcard-art .scene{transition:transform .6s ease}
+ .pcard:hover .pcard-art .scene{transform:scale(1.07)}
+ .pcard-tag{position:absolute;top:16px;left:16px;z-index:5;background:rgba(250,247,240,.92);backdrop-filter:blur(6px);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;padding:7px 13px;border-radius:30px}
+ .pcard-letter{position:absolute;bottom:-2px;right:14px;z-index:5;font-family:"Fraunces",serif;font-size:5rem;font-weight:300;color:rgba(250,247,240,.92);line-height:1;text-shadow:0 2px 20px rgba(0,0,0,.25)}
+ .pcard-body{padding:26px 24px 28px;flex:1;display:flex;flex-direction:column}
+ .pcard h3{font-family:"Fraunces",serif;font-weight:500;font-size:1.5rem;margin-bottom:10px;letter-spacing:-.01em}
+ .pcard .d{font-size:.92rem;opacity:.7;flex:1;margin-bottom:22px}
+ .pcard-foot{display:flex;justify-content:space-between;align-items:center;padding-top:18px;border-top:1px solid var(--line)}
+ .pcard-price b{font-family:"Fraunces",serif;font-size:1.3rem;font-weight:500}
+ .pcard-price span{font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;opacity:.5;display:block}
+ .pcard-go{font-size:.78rem;letter-spacing:.04em;display:flex;align-items:center;gap:7px;color:var(--berry);font-weight:500}
+ .pcard-go .arr{transition:transform .3s}
+ .pcard:hover .pcard-go .arr{transform:translateX(5px)}
+ .ctable{width:100%;border-collapse:collapse;font-size:.92rem;background:var(--cream);border-radius:18px;overflow:hidden;box-shadow:0 10px 36px rgba(22,19,15,.08)}
+ .ctable th,.ctable td{padding:17px 18px;text-align:left;border-bottom:1px solid var(--line)}
+ .ctable thead th{font-family:"Fraunces",serif;font-weight:500;font-size:1.1rem;background:var(--ink);color:var(--cream)}
+ .ctable thead th:first-child{font-family:"Outfit",sans-serif;font-weight:400;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+ .ctable td:first-child{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;opacity:.55;width:130px}
+ .ctable tr:last-child td{border-bottom:none}
+ .ctable .price b{font-family:"Fraunces",serif;font-size:1.15rem;font-weight:500}
+ @media(max-width:720px){.ctable{font-size:.82rem}.ctable th,.ctable td{padding:13px 11px}.ctable td:first-child{width:88px}}
+ .pilltag{display:inline-block;font-size:.7rem;padding:4px 11px;border-radius:20px;letter-spacing:.03em}
+ .dhero{position:relative;height:46vh;min-height:340px;display:flex;align-items:flex-end;overflow:hidden}
+ .dhero-scene{position:absolute;inset:0;z-index:0}
+ .dhero-in{position:relative;z-index:3;padding:0 28px 44px;max-width:1200px;margin:0 auto;width:100%}
+ .dhero .badge{display:inline-flex;align-items:center;gap:10px;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:#1a1712;background:rgba(250,247,240,.9);padding:8px 16px;border-radius:30px;margin-bottom:18px}
+ .dhero h2{font-family:"Fraunces",serif;font-weight:300;font-size:clamp(2.4rem,7vw,4.6rem);line-height:.96;letter-spacing:-.02em;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.55),0 4px 30px rgba(0,0,0,.5)}
+ .dhero p{color:#f6f0e6;margin-top:14px;max-width:560px;font-size:1.02rem;text-shadow:0 1px 6px rgba(0,0,0,.6),0 2px 18px rgba(0,0,0,.5)}
+ .back{display:inline-flex;align-items:center;gap:8px;margin:30px 0 6px;font-size:.82rem;letter-spacing:.04em;color:var(--ink);background:none;border:none;cursor:pointer;opacity:.65;transition:opacity .2s}
+ .back:hover{opacity:1}
+ .stay-strip{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 8px}
+ .stay-chip{font-size:.8rem;padding:9px 16px;border-radius:30px;background:var(--cream);border:1px solid var(--line);display:flex;align-items:center;gap:9px;box-shadow:0 2px 10px rgba(22,19,15,.04)}
+ .stay-chip i{font-style:normal;color:var(--berry);font-weight:600;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase}
+ .days{display:grid;gap:16px;padding:30px 0 10px}
+ .day{display:grid;grid-template-columns:96px 1fr;gap:28px;background:var(--cream);border-radius:18px;padding:26px 28px;border:1px solid rgba(22,19,15,.06);box-shadow:0 4px 18px rgba(22,19,15,.05)}
+ @media(max-width:640px){.day{grid-template-columns:1fr;gap:14px;padding:22px 22px}}
+ .day-num{font-family:"Fraunces",serif;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--berry);font-weight:600}
+ .day-num b{display:block;font-size:2.4rem;letter-spacing:-.02em;color:var(--ink);margin-top:2px;line-height:1}
+ .day h4{font-family:"Fraunces",serif;font-weight:500;font-size:1.22rem;margin-bottom:14px}
+ .timeline{display:grid;gap:11px}
+ .ti{display:grid;grid-template-columns:66px 1fr;gap:16px;font-size:.92rem;align-items:start}
+ .ti time{font-variant-numeric:tabular-nums;opacity:.5;font-size:.82rem;padding-top:2px;letter-spacing:.02em}
+ .ti b{font-weight:500}
+ .ti .move{display:block;font-size:.78rem;opacity:.55;margin-top:3px}
+ .note{margin-top:16px;font-size:.86rem;padding:15px 17px;border-radius:12px;background:rgba(106,61,92,.08);border-left:3px solid var(--plum)}
+ .note.warn{background:rgba(178,60,94,.08);border-left-color:var(--berry)}
+ .note.gold{background:rgba(184,137,63,.1);border-left-color:var(--gold)}
+ .pack{margin:40px 0 0;background:var(--pine);color:#e9e2d3;border-radius:22px;padding:40px 36px;position:relative;overflow:hidden}
+ .pack::after{content:"\2744";position:absolute;right:-10px;top:-20px;font-size:11rem;opacity:.06;color:#fff}
+ .pack h3{font-family:"Fraunces",serif;font-weight:400;font-size:1.6rem;margin-bottom:6px;color:#fff}
+ .pack .sub{font-size:.86rem;opacity:.7;margin-bottom:24px}
+ .pack-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 32px;position:relative;z-index:2}
+ @media(max-width:640px){.pack-grid{grid-template-columns:1fr}}
+ .pack-item{display:grid;grid-template-columns:26px 1fr;gap:12px;font-size:.92rem;align-items:start}
+ .pack-item i{font-style:normal;color:var(--sand);font-family:"Fraunces",serif;font-size:1.1rem}
+ footer{padding:80px 0 56px;margin-top:60px;border-top:1px solid var(--line);text-align:center}
+ .foot-brand{font-family:"Fraunces",serif;font-size:2.6rem;font-weight:300;letter-spacing:-.02em;margin-bottom:12px}
+ .foot-brand em{font-style:italic;color:var(--plum)}
+ .foot-note{font-size:.84rem;opacity:.55;max-width:460px;margin:0 auto}
+ .foot-by{margin-top:26px;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;opacity:.45}
+ .foot-jp{font-family:"Noto Serif JP",serif;font-size:1.2rem;opacity:.3;letter-spacing:.4em;margin-top:18px}
+ .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+ .reveal.in{opacity:1;transform:none}
+ @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.scene{transition:none!important}}
+
+  .dhero::before{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(10,8,20,0) 30%,rgba(10,8,20,.55) 100%);pointer-events:none}
+  .hero::before{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(10,8,20,0) 40%,rgba(10,8,20,.5) 100%);pointer-events:none}
+  .pcard-art::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,8,20,0) 45%,rgba(10,8,20,.28) 100%);pointer-events:none}
+</style>
+</head>
+<body>
+<nav>
+ <div class="wrap nav-in">
+  <button class="brand" data-go="overview">sara<span class="dot"></span>plan</button>
+  <div class="tabs">
+   <button class="tab active" data-go="overview">개요</button>
+   <button class="tab" data-go="a">A · Easy</button>
+   <button class="tab" data-go="b">B · Disney</button>
+   <button class="tab" data-go="c">C · Snow</button>
+  </div>
+ </div>
+</nav>
+
+<div class="page show" id="page-overview">
+ <section class="hero">
+  <div class="hero-scene" id="heroScene"></div>
+  <div class="hero-content">
+   <div class="eyebrow">Tokyo · 3박 4일</div>
+   <h1>Three ways<br>to do <em>Tokyo</em>.</h1>
+   <p class="lede">도쿄 3박 4일, 세 가지 스타일로 준비했어. 마음에 드는 걸로 고르면 그다음에 자세히 정하자</p>
+  </div>
+  <div class="scroll-cue"><span>아래로</span><span class="bar"></span></div>
+ </section>
+ <div class="ribbon">
+  <div class="wrap ribbon-in">
+   <div class="item"><b>3</b><span>개 플랜</span></div>
+   <div class="item"><b>4</b><span>일</span></div>
+   <div class="item"><b>Oct–Jan</b><span>여행 시기</span></div>
+   <div class="item"><b>Tokyo</b><span>베이스</span></div>
+   <div class="jp">東京</div>
+  </div>
+ </div>
+ <section class="sec">
+  <div class="wrap">
+   <div class="sec-head reveal">
+    <div class="eyebrow">Choose your pace</div>
+    <h2>여행 스타일 고르기</h2>
+    <p>플랜마다 페이스가 달라. 카드를 누르면 각 플랜의 상세 일정을 볼 수 있어</p>
+   </div>
+   <div class="plans">
+    <div class="pcard reveal" data-go="a">
+     <div class="pcard-art"><div class="scene" data-scene="garden"></div><span class="pcard-tag">Easy &amp; Slow</span><span class="pcard-letter">A</span></div>
+     <div class="pcard-body"><h3>느긋하게, 호텔 안 옮김</h3><p class="d">한 호텔에 계속 머물면서 옛 동네 산책, 예쁜 정원, 전망대. 서두를 거 하나 없이</p>
+      <div class="pcard-foot"><div class="pcard-price"><b>~52k¥</b><span>1인 기준</span></div><div class="pcard-go">플랜 보기 <span class="arr">→</span></div></div></div>
+    </div>
+    <div class="pcard reveal" data-go="b">
+     <div class="pcard-art"><div class="scene" data-scene="disney"></div><span class="pcard-tag">City &amp; Disney</span><span class="pcard-letter">B</span></div>
+     <div class="pcard-body"><h3>도시 + 디즈니</h3><p class="d">처음 이틀은 도시 구경, 마지막엔 디즈니씨 종일 + 디즈니 리조트에서 숙박</p>
+      <div class="pcard-foot"><div class="pcard-price"><b>~77k¥</b><span>1인 기준</span></div><div class="pcard-go">플랜 보기 <span class="arr">→</span></div></div></div>
+    </div>
+    <div class="pcard reveal" data-go="c">
+     <div class="pcard-art"><div class="scene" data-scene="snow"></div><span class="pcard-tag">City &amp; Snow</span><span class="pcard-letter">C</span></div>
+     <div class="pcard-body"><h3>눈 + 온천</h3><p class="d">도시 구경 먼저, 그다음 신칸센 타고 첫 스키. 마지막엔 온천 + 가이세키</p>
+      <div class="pcard-foot"><div class="pcard-price"><b>~73k¥</b><span>1인 기준</span></div><div class="pcard-go">플랜 보기 <span class="arr">→</span></div></div></div>
+    </div>
+   </div>
+  </div>
+ </section>
+ <section class="sec" style="padding-top:0">
+  <div class="wrap">
+   <div class="sec-head reveal"><div class="eyebrow">Side by side</div><h2>세 플랜 비교</h2></div>
+   <div class="reveal" style="overflow-x:auto">
+    <table class="ctable">
+     <thead><tr><th></th><th>Plan A</th><th>Plan B</th><th>Plan C</th></tr></thead>
+     <tbody>
+      <tr><td>분위기</td><td>느긋 휴식</td><td>신나게 액티브</td><td>눈 + 온천</td></tr>
+      <tr><td>숙소</td><td>도쿄 3박</td><td>도쿄 1 + 디즈니 2</td><td>도쿄 2 + 유자와 1</td></tr>
+      <tr><td>호텔 이동</td><td>안 옮김</td><td>1회</td><td>1회</td></tr>
+      <tr><td>체력 부담</td>
+       <td><span class="pilltag" style="background:rgba(38,67,58,.12);color:var(--pine)">적음</span></td>
+       <td><span class="pilltag" style="background:rgba(178,60,94,.12);color:var(--berry)">많음</span></td>
+       <td><span class="pilltag" style="background:rgba(106,61,92,.12);color:var(--plum)">보통</span></td></tr>
+      <tr><td>하이라이트</td><td>산책 · 전망 · 정원</td><td>DisneySea</td><td>스키 + 온천 + 가이세키</td></tr>
+      <tr class="price"><td>가격/인*</td><td><b>~52k¥</b></td><td><b>~77k¥</b></td><td><b>~73k¥</b></td></tr>
+     </tbody>
+    </table>
+   </div>
+   <p style="font-size:.8rem;opacity:.5;margin-top:16px">* 1인 기준 숙소 ( 2 /) + + + — · 가격  2026</p>
+  </div>
+ </section>
+ <footer><div class="wrap"><div class="foot-brand">sara<em>plan</em></div><p class="foot-note">이 세 플랜은 큰 틀이야. 마음에 드는 거랑 편한 날짜 골라주면 그다음에 같이 자세히 예약하자</p><div class="foot-by">curated by sara</div><div class="foot-jp">旅</div></div></footer>
+</div>
+
+<div class="page" id="page-a">
+ <section class="dhero"><div class="dhero-scene" data-scene="garden"></div>
+  <div class="dhero-in"><span class="badge">Plan A · Easy &amp; Slow</span><h2>느긋하게, 호텔 안 옮김</h2><p>한 호텔에 3박, 쉬엄쉬엄 산책 위주로 서두르지 않기</p></div>
+ </section>
+ <div class="wrap">
+  <button class="back" data-go="overview">← 개요로</button>
+  <div class="stay-strip"><span class="stay-chip"><i>1–3박</i> 신주쿠 / 시부야 · 내내 같은 곳</span></div>
+  <div class="days">
+   <div class="day reveal"><div class="day-num">Day<b>1</b></div><div><h4>도쿄 도착 · 호텔 근처 산책</h4><div class="timeline">
+    <div class="ti"><time>오후</time><span><b>호텔 체크인</b> 신주쿠/시부야, 짐 맡기기<span class="move">공항에서 모노레일 / 리무진 버스</span></span></div>
+    <div class="ti"><time>저녁</time><span><b>Shibuya</b> — 시부야 스크램블, 하치코, 백화점<span class="move">호텔에서 도보</span></span></div>
+    <div class="ti"><time>밤</time><span><b>저녁 식사</b> 편하게 라멘/이자카야</span></div></div>
+    <div class="note">일 </div></div></div>
+   <div class="day reveal"><div class="day-num">Day<b>2</b></div><div><h4>옛 동네 아사쿠사 · 강 크루즈</h4><div class="timeline">
+    <div class="ti"><time>오전</time><span><b>Asakusa</b> 센소지 절, 나카미세 거리<span class="move">JR + Tokyo Metro Ginza line</span></span></div>
+    <div class="ti"><time>오후</time><span><b>스미다강 크루즈</b> 아사쿠사 → 하마리큐 정원<span class="move">Tokyo Cruise</span></span></div>
+    <div class="ti"><time>저녁</time><span><b>하마리큐 정원</b> 산책하고 정원에서 말차 한 잔</span></div>
+    <div class="ti"><time>밤</time><span><b>귀국</b> 저녁<span class="move">JR 야마노테선</span></span></div></div></div></div>
+   <div class="day reveal"><div class="day-num">Day<b>3</b></div><div><h4>정원 · 빈티지 거리 · 노을 전망</h4><div class="timeline">
+    <div class="ti"><time>오전</time><span><b>신주쿠 교엔 정원</b> 산책하고 피크닉</span></div>
+    <div class="ti"><time>오후</time><span><b>Shimokitazawa</b> 빈티지 거리, 카페, 구제샵<span class="move">Keio / Odakyu line ~5 분</span></span></div>
+    <div class="ti"><time>저녁</time><span><b>도쿄도청 전망대</b> 45층 노을 + 야경<span class="move">신주쿠역에서 도보 ~10분</span></span></div>
+    <div class="ti"><time>밤</time><span><b>Omoide Yokocho</b> 골목 포장마차, 야키토리</span></div></div></div></div>
+   <div class="day reveal"><div class="day-num">Day<b>4</b></div><div><h4>마무리 · 귀국</h4><div class="timeline">
+    <div class="ti"><time>오전</time><span><b>카페 / 쇼핑</b> 호텔 근처, 기념품</span></div>
+    <div class="ti"><time>늦은 오전</time><span><b>체크아웃</b> → 공항으로</span></div></div></div></div>
+  </div>
+ </div>
+ <footer><div class="wrap"><div class="foot-brand">sara<em>plan</em></div><div class="foot-by">curated by sara</div></div></footer>
+</div>
+
+<div class="page" id="page-b">
+ <section class="dhero"><div class="dhero-scene" data-scene="disney"></div>
+  <div class="dhero-in"><span class="badge">Plan B · City &amp; Disney</span><h2>도시 + 디즈니</h2><p>처음 이틀 도시 구경 DisneySea + Disney Resort 2 박</p></div>
+ </section>
+ <div class="wrap">
+  <button class="back" data-go="overview">← 개요로</button>
+  <div class="stay-strip"><span class="stay-chip"><i>1박</i> 보통</span><span class="stay-chip"><i>2–3박</i> 디즈니 리조트 (마이하마)</span></div>
+  <div class="days">
+   <div class="day reveal"><div class="day-num">Day<b>1</b></div><div><h4>도쿄 도착 · 도시 구경</h4><div class="timeline">
+    <div class="ti"><time>오후</time><span><b>호텔 체크인</b> 보통<span class="move">Monorail / Bus</span></span></div>
+    <div class="ti"><time>저녁</time><span><b>Shibuya / Shinjuku</b> 산책<span class="move">도보 / JR</span></span></div>
+    <div class="ti"><time>밤</time><span><b>저녁 식사</b> 시차 적응</span></div></div></div></div>
+   <div class="day reveal"><div class="day-num">Day<b>2</b></div><div><h4>도시 구경 · 디즈니 리조트 입성</h4><div class="timeline">
+    <div class="ti"><time>오전</time><span><b>teamLab Planets</b> 디지털 아트, 사진 맛집<span class="move">유리카모메선 · 사전 예약</span></span></div>
+    <div class="ti"><time>오후</time><span><b>Odaiba</b> 건담(다이버시티), 대관람차, 사다코<span class="move">유리카모메선</span></span></div>
+    <div class="ti"><time>저녁</time><span><b>호텔 체크인 Disney</b> (마이하마)<span class="move">JR 게이요선 → 마이하마</span></span></div>
+    <div class="ti"><time>밤</time><span><b>Ikspiari</b> 산책 저녁</span></div></div></div></div>
+   <div class="day reveal"><div class="day-num">Day<b>3</b></div><div><h4>DisneySea 일</h4><div class="timeline">
+    <div class="ti"><time>08:00</time><span><b>디즈니씨 입장</b> 오픈런<span class="move">호텔에서 디즈니 리조트 라인</span></span></div>
+    <div class="ti"><time>전체일</time><span><b>어트랙션 타기</b> 특히 신규 구역 판타지 스프링스</span></div>
+    <div class="ti"><time>저녁</time><span><b>워터쇼 / 불꽃놀이</b> 귀국호텔</span></div></div>
+    <div class="note gold">프리미어 액세스(DPA) 사면 타고 싶은 어트랙션 줄 건너뛰기 가능 — 훨씬 많이 탈 수 있어. 입장권은 온라인 사전 예약</div></div></div>
+   <div class="day reveal"><div class="day-num">Day<b>4</b></div><div><h4>마무리 · 귀국</h4><div class="timeline">
+    <div class="ti"><time>오전</time><span><b>기념품 쇼핑</b> 디즈니 / 익스피아리</span></div>
+    <div class="ti"><time>늦은 오전</time><span><b>체크아웃</b> → JR 게이요선 → 도쿄역 → 공항</span></div></div></div></div>
+  </div>
+ </div>
+ <footer><div class="wrap"><div class="foot-brand">sara<em>plan</em></div><div class="foot-by">curated by sara</div></div></footer>
+</div>
+
+<div class="page" id="page-c">
+ <section class="dhero"><div class="dhero-scene" data-scene="snow"></div>
+  <div class="dhero-in"><span class="badge">Plan C · City &amp; Snow</span><h2>눈 + 온천</h2><p>처음 이틀 도시 구경 + 온천 · 스키장 GALA Yuzawa</p></div>
+ </section>
+ <div class="wrap">
+  <button class="back" data-go="overview">← 개요로</button>
+  <div class="stay-strip"><span class="stay-chip"><i>1–2박</i> 보통</span><span class="stay-chip"><i>3박</i> 온천 료칸 · 에치고유자와</span></div>
+  <div class="days">
+   <div class="day reveal"><div class="day-num">Day<b>1</b></div><div><h4>도쿄 도착 · 도시 구경</h4><div class="timeline">
+    <div class="ti"><time>오후</time><span><b>호텔 체크인</b> 보통<span class="move">Monorail / Bus</span></span></div>
+    <div class="ti"><time>저녁</time><span><b>Odaiba</b> 건담, 사다코, 대관람차, 베이 전망<span class="move">유리카모메선</span></span></div>
+    <div class="ti"><time>밤</time><span><b>저녁 식사</b></span></div></div></div></div>
+   <div class="day reveal"><div class="day-num">Day<b>2</b></div><div><h4>도쿄 시내 구경</h4><div class="timeline">
+    <div class="ti"><time>오전</time><span><b>teamLab Planets</b> 또는 아사쿠사 센소지</span></div>
+    <div class="ti"><time>오후</time><span><b>Harajuku</b> (다케시타 거리) + 메이지 신궁<span class="move">JR 야마노테선</span></span></div>
+    <div class="ti"><time>저녁</time><span><b>전망대</b> 시부야 스카이 또는 도쿄도청, 노을</span></div></div></div></div>
+   <div class="day reveal"><div class="day-num">Day<b>3</b></div><div><h4>스키 · 온천 · 가이세키</h4><div class="timeline">
+    <div class="ti"><time>오전</time><span><b>체크아웃</b> → 신칸센(조에쓰/다니가와) GALA 유자와 직행<span class="move">~75–80분, 환승 없음</span></span></div>
+    <div class="ti"><time>오후</time><span><b>일</b> 베이스에서 장비 대여 + 초보 강습(영어 가능)<span class="move">역이 스키장과 바로 연결</span></span></div>
+    <div class="ti"><time>저녁</time><span><b>료칸 체크인</b> 에치고유자와 → 온천</span></div>
+    <div class="ti"><time>밤</time><span><b>가이세키 식사</b> 일본 코스 요리</span></div></div>
+    <div class="note">GALA Yuzawa  =  + 눈 + 온천 · 2025–26 20 ..–6 ..</div></div></div>
+   <div class="day reveal"><div class="day-num">Day<b>4</b></div><div><h4>귀국</h4><div class="timeline">
+    <div class="ti"><time>오전</time><span><b>눈놀이 / 온천 마을 산책</b> 또는 역 앞 족탕/온천</span></div>
+    <div class="ti"><time>늦은 오전</time><span><b>체크아웃</b> → 신칸센귀국 Tokyo Station<span class="move">~75분</span></span></div>
+    <div class="ti"><time>오후</time><span><b>도쿄 도착</b> → 공항으로</span></div></div>
+    <div class="note warn">귀국 항공편 시간 꼭 확인 — 늦은 오후/저녁 출발이면 여유, 오전 출발이면 아침 눈놀이는 빼야 함</div></div></div>
+  </div>
+  <div class="pack reveal">
+   <h3>추위 대비 준비물</h3><p class="sub">스키장 기온 약 −5 ~ −15°C</p>
+   <div class="pack-grid">
+    <div class="pack-item"><i>✦</i><span><b>메리노 울 양말</b> — 면 양말은 X. 면은 젖으면 더 차가워짐</span></div>
+    <div class="pack-item"><i>✦</i><span><b>핫팩 (카이로)</b> — 많음</span></div>
+    <div class="pack-item"><i>✦</i><span><b>레이어링</b> — 이너 히트텍 → 플리스 → 방풍방수 아우터</span></div>
+    <div class="pack-item"><i>✦</i><span><b>장갑 · 모자 · 목도리</b> — 열은 머리/목으로 많이 빠져나감</span></div>
+   </div>
+  </div>
+ </div>
+ <footer><div class="wrap"><div class="foot-brand">sara<em>plan</em></div><div class="foot-by">curated by sara</div></div></footer>
+</div>
+
+<script>
+ function buildScene(el,type){
+  el.innerHTML="";
+  const add=(s)=>{const d=document.createElement('div');d.style.cssText=s;el.appendChild(d);return d;};
+  if(type==="garden"){
+   add("position:absolute;inset:0;background:linear-gradient(180deg,#f3d9b0 0%,#e8b98f 38%,#cf8f72 100%)");
+   add("position:absolute;width:120px;height:120px;border-radius:50%;right:14%;top:16%;background:radial-gradient(circle,#fff3d6,#f5c98a);box-shadow:0 0 70px 20px rgba(245,201,138,.6)");
+   add("position:absolute;bottom:30%;left:-10%;right:-10%;height:42%;background:#b97a64;border-radius:50% 50% 0 0/100% 100% 0 0;opacity:.55");
+   add("position:absolute;bottom:30%;left:20%;right:-20%;height:36%;background:#a8655a;border-radius:50% 50% 0 0/100% 100% 0 0;opacity:.5");
+   add("position:absolute;bottom:0;left:0;right:0;height:34%;background:linear-gradient(180deg,#7d5a4f,#5e4239)");
+   for(let i=0;i<5;i++){const x=8+i*20+(i%2?4:0);const s=44+(i%3)*14;const col=["#c0452f","#d97b2e","#b8893f","#c0452f","#d4632a"][i];
+    add("position:absolute;bottom:26%;left:"+x+"%;width:6px;height:"+(s*0.6)+"px;background:#3e2b24;transform:translateY("+(s*0.4)+"px)");
+    add("position:absolute;bottom:calc(26% + "+((s*0.32)/3)+"%);left:"+(x-6)+"%;width:"+s+"px;height:"+s+"px;border-radius:50%;background:"+col+";opacity:.92;box-shadow:0 6px 18px rgba(0,0,0,.15)");}
+  } else if(type==="disney"){
+   add("position:absolute;inset:0;background:linear-gradient(180deg,#2a2150 0%,#5b3b6e 45%,#b5567e 78%,#e89a72 100%)");
+   for(let i=0;i<26;i++){const x=Math.random()*100,y=Math.random()*52,s=Math.random()*2+1;add("position:absolute;left:"+x+"%;top:"+y+"%;width:"+s+"px;height:"+s+"px;border-radius:50%;background:#fff;opacity:"+(0.4+Math.random()*0.6));}
+   add("position:absolute;right:16%;top:14%;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle,#fff6e0,#f3d4a0);box-shadow:0 0 50px 14px rgba(255,240,210,.5)");
+   add("position:absolute;bottom:0;left:0;right:0;height:26%;background:linear-gradient(180deg,#7a4a78,#3a2a55)");
+   const c="#241a3d";
+   add("position:absolute;bottom:26%;left:50%;transform:translateX(-50%);width:46px;height:120px;background:"+c);
+   add("position:absolute;bottom:calc(26% + 120px);left:50%;transform:translateX(-50%);width:0;height:0;border-left:23px solid transparent;border-right:23px solid transparent;border-bottom:36px solid "+c);
+   add("position:absolute;bottom:26%;left:calc(50% - 44px);width:26px;height:88px;background:"+c);
+   add("position:absolute;bottom:calc(26% + 88px);left:calc(50% - 44px);width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-bottom:26px solid "+c);
+   add("position:absolute;bottom:26%;left:calc(50% + 18px);width:26px;height:96px;background:"+c);
+   add("position:absolute;bottom:calc(26% + 96px);left:calc(50% + 18px);width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-bottom:26px solid "+c);
+   add("position:absolute;bottom:38%;left:calc(50% - 4px);width:6px;height:9px;background:#ffd87a;border-radius:2px;box-shadow:0 0 8px #ffd87a");
+  } else if(type==="snow"){
+   add("position:absolute;inset:0;background:linear-gradient(180deg,#aacbe0 0%,#cfe2ee 42%,#eef4f8 100%)");
+   add("position:absolute;left:18%;top:18%;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,#fff,#e4eef5);box-shadow:0 0 60px 18px rgba(255,255,255,.6)");
+   const mk=(left,w,h,col)=>{add("position:absolute;bottom:30%;left:"+left+"%;width:0;height:0;border-left:"+w+"px solid transparent;border-right:"+w+"px solid transparent;border-bottom:"+h+"px solid "+col);add("position:absolute;bottom:calc(30% + "+(h-26)+"px);left:calc("+left+"% + "+(w-18)+"px);width:0;height:0;border-left:18px solid transparent;border-right:18px solid transparent;border-bottom:26px solid #fff");};
+   mk(6,90,150,"#8fb0c8");mk(38,110,190,"#7ba0bd");mk(64,95,160,"#9bbace");
+   add("position:absolute;bottom:0;left:0;right:0;height:32%;background:linear-gradient(180deg,#ffffff,#dde8f0)");
+   for(let i=0;i<6;i++){const x=6+i*16;const h=30+(i%3)*12;
+    add("position:absolute;bottom:28%;left:"+x+"%;width:0;height:0;border-left:"+(h*0.42)+"px solid transparent;border-right:"+(h*0.42)+"px solid transparent;border-bottom:"+h+"px solid #2f5145");
+    add("position:absolute;bottom:calc(28% + "+(h-6)+"px);left:"+x+"%;width:0;height:0;border-left:"+(h*0.3)+"px solid transparent;border-right:"+(h*0.3)+"px solid transparent;border-bottom:"+(h*0.7)+"px solid #38604f");}
+   for(let i=0;i<30;i++){const x=Math.random()*100,y=Math.random()*70,s=Math.random()*3+2;add("position:absolute;left:"+x+"%;top:"+y+"%;width:"+s+"px;height:"+s+"px;border-radius:50%;background:#fff;opacity:"+(0.5+Math.random()*0.5));}
+  }
+ }
+ document.querySelectorAll('[data-scene]').forEach(el=>buildScene(el,el.getAttribute('data-scene')));
+ (function(){
+  const el=document.getElementById('heroScene');el.innerHTML="";
+  const add=(s)=>{const d=document.createElement('div');d.style.cssText=s;el.appendChild(d);return d;};
+  add("position:absolute;inset:0;background:linear-gradient(180deg,#241d44 0%,#5b3a66 40%,#b65878 70%,#f0a574 100%)");
+  for(let i=0;i<30;i++){const x=Math.random()*100,y=Math.random()*46,s=Math.random()*2+1;add("position:absolute;left:"+x+"%;top:"+y+"%;width:"+s+"px;height:"+s+"px;border-radius:50%;background:#fff;opacity:"+(0.3+Math.random()*0.5));}
+  add("position:absolute;right:14%;top:13%;width:84px;height:84px;border-radius:50%;background:radial-gradient(circle,#fff3d6,#f3c98a);box-shadow:0 0 70px 22px rgba(243,201,138,.5)");
+  const base="position:absolute;bottom:0;background:#1b1530;";
+  const heights=[120,180,90,220,150,260,110,190,140,300,160,210,130,240,100];let x=0;const total=heights.length;
+  heights.forEach((h)=>{const w=100/total;add(base+"left:"+x+"%;width:"+(w+0.4)+"%;height:"+h+"px");
+   for(let r=0;r<Math.floor(h/26);r++){if(Math.random()>.45)add("position:absolute;bottom:"+(8+r*24)+"px;left:calc("+x+"% + "+(w*0.3)+"%);width:4px;height:6px;background:#ffd277;opacity:.8");}x+=w;});
+  add("position:absolute;bottom:0;left:72%;width:0;height:0;border-left:26px solid transparent;border-right:26px solid transparent;border-bottom:240px solid #d2543f;opacity:.92");
+  add("position:absolute;bottom:200px;left:calc(72% + 18px);width:16px;height:50px;background:#d2543f");
+ })();
+ const pages={overview:'page-overview',a:'page-a',b:'page-b',c:'page-c'};
+ function go(key){
+  Object.values(pages).forEach(id=>document.getElementById(id).classList.remove('show'));
+  document.getElementById(pages[key]).classList.add('show');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.getAttribute('data-go')===key));
+  window.scrollTo({top:0});
+  setTimeout(()=>{document.querySelectorAll('.show .reveal').forEach(r=>{const rect=r.getBoundingClientRect();if(rect.top<window.innerHeight)r.classList.add('in');});},60);
+ }
+ document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.getAttribute('data-go'))));
+ const obs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}})},{threshold:.12});
+ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
